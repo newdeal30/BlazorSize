@@ -37,18 +37,24 @@ namespace BlazorPro.BlazorSize
         [JSInvokable(nameof(MediaQueryList.MediaQueryChanged))]
         public void MediaQueryChanged(MediaQueryArgs args)
         {
-            // cache must be compared by actual value, not RequestedMedia when invoked from JavaScript
-            // DOM Media value my be different that the initally requested media query value.
-            var cache = MqService.MediaQueries.Find(q => q.Value?.Media == args.Media);
+            try 
+            { 
+                // cache must be compared by actual value, not RequestedMedia when invoked from JavaScript
+                // DOM Media value my be different that the initally requested media query value.
+                var cache = MqService.MediaQueries.Find(q => q.Value?.Media == args.Media);
 
-            if (cache is null) return;
+                if (cache is null) return;
 
-            // Dispatch events to all subscribers
-            if (cache.MediaQueries is null) return;
-            foreach (var item in cache.MediaQueries)
-            {
-                item.MediaQueryChanged(args);
+                // Dispatch events to all subscribers
+                if (cache.MediaQueries is null) return;
+                foreach (var item in cache.MediaQueries)
+                {
+                    item.MediaQueryChanged(args);
+                }
+			      }
+            catch {
+
             }
-        }
+				}
     }
 }

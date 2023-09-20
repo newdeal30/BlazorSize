@@ -62,16 +62,15 @@ namespace BlazorPro.BlazorSize
 
         public async Task Initialize(MediaQuery mediaQuery)
         {
-            if (mediaQuery?.Media is null) return;
-            var cache = GetMediaQueryFromCache(byMedia: mediaQuery.Media);
-            if (cache is null) return;
+            try {
+                if (mediaQuery?.Media is null) return;
+                var cache = GetMediaQueryFromCache(byMedia: mediaQuery.Media);
+                if (cache is null) return;
 
-            if (cache.Value is null)
-            {
-                // If we don't flag the cache as loading, duplicate requests will be sent async.
-                // Duplicate requests = poor performance, esp with web sockets.
-                if (!cache.Loading)
-                {
+                if (cache.Value is null) {
+                  // If we don't flag the cache as loading, duplicate requests will be sent async.
+                  // Duplicate requests = poor performance, esp with web sockets.
+                  if (!cache.Loading) {
                     cache.Loading = true;
 
                     var module = await moduleTask.Value;
@@ -80,19 +79,21 @@ namespace BlazorPro.BlazorSize
                     cache.Loading = task.IsCompleted;
                     // When loading is complete dispatch an update to all subscribers.
                     cache.MediaQueries ??= new List<MediaQuery>();
-                    foreach (var item in cache.MediaQueries)
-                    {
-                        item.MediaQueryChanged(cache.Value);
+                    foreach (var item in cache.MediaQueries.ToList()) {
+                      item.MediaQueryChanged(cache.Value);
                     }
+                  }
+                }
+                else {
+                  var module = await moduleTask.Value;
+                  var task = module.InvokeAsync<MediaQueryArgs>($"getMediaQueryArgs", cache.MediaRequested);
+                  cache.Value = await task;
+
+                  mediaQuery.MediaQueryChanged(cache.Value);
                 }
             }
-            else
-            {
-                var module = await moduleTask.Value;
-                var task = module.InvokeAsync<MediaQueryArgs>($"getMediaQueryArgs", cache.MediaRequested);
-                cache.Value = await task;
+            catch (Exception) {
 
-                mediaQuery.MediaQueryChanged(cache.Value);
             }
         }
 

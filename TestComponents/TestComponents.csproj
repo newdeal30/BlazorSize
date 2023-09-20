@@ -13,7 +13,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\BlazorSize\BlazorPro.BlazorSize.csproj" />
+    <ProjectReference Include="..\BlazorSize\BlazorPro.BlazorSizeTest.csproj" />
   </ItemGroup>
 
   <!-- static resources _content/* -->
