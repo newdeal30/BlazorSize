@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlazorSize\BlazorPro.BlazorSizeTest.csproj" />
+    <ProjectReference Include="..\BlazorSize\BlazorPro.BlazorSize.csproj" />
     <ProjectReference Include="..\TestComponents\TestComponents.csproj" />
   </ItemGroup>
 

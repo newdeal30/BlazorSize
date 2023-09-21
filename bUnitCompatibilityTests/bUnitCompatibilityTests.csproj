@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorSize.UnitTesting\BlazorPro.BlazorSize.UnitTesting.csproj" />
-    <ProjectReference Include="..\BlazorSize\BlazorPro.BlazorSizeTest.csproj" />
+    <ProjectReference Include="..\BlazorSize\BlazorPro.BlazorSize.csproj" />
   </ItemGroup>
 
 </Project>
